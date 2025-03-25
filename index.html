@@ -212,8 +212,20 @@
       for (const line of lines) {
         if (line.every(i => marked[i])) {
           line.forEach(i => {
-  cells[i].classList.add('bingo-flash');
-  cells[i].innerHTML = '<strong>BINGO!!</strong>';
+    cells[i].classList.add('bingo-flash');
+    const bingoTag = document.createElement('div');
+    bingoTag.textContent = 'BINGO!!';
+    bingoTag.style.position = 'absolute';
+    bingoTag.style.top = '5px';
+    bingoTag.style.left = '0';
+    bingoTag.style.width = '100%';
+    bingoTag.style.textAlign = 'center';
+    bingoTag.style.fontWeight = 'bold';
+    bingoTag.style.fontSize = '14px';
+    bingoTag.style.color = '#E91E63';
+    bingoTag.classList.add('bingo-label');
+    cells[i].style.position = 'relative';
+    cells[i].appendChild(bingoTag);
 });
         }
       }
