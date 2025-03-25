@@ -1,15 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>棒球賓果卡</title>
   <style>
-    body { font-family: 'Arial', sans-serif; background: #eee; margin: 0; padding: 0; }
+    body { font-family: 'Arial', sans-serif; background: #eee; margin: 0; padding: 0; text-align: center; }
     .title-container { display: flex; justify-content: center; align-items: center; margin-top: 20px; gap: 15px; }
     #logo { width: 60px; height: auto; }
     .title-text h1 { margin: 0; font-size: 24px; }
     .title-text small { font-size: 14px; color: #555; }
-    .main-container { display: flex; justify-content: center; align-items: flex-start; gap: 40px; margin: 20px auto; max-width: 1000px; }
+    .main-container { display: flex; justify-content: center; align-items: flex-start; gap: 40px; margin: 20px auto; max-width: 1000px; flex-wrap: wrap; }
     .bingo { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; background: white; padding: 10px; width: 100%; max-width: 500px; }
     .cell { background: white; border: 2px solid #444; padding: 10px; min-height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; user-select: none; }
     .cell.marked { background: #4CAF50; color: white; font-weight: bold; }
@@ -27,7 +28,7 @@
 </head>
 <body>
   <div class="title-container">
-    <img id="logo" src="logo.png" alt="Logo">
+    <img id="logo" src="logo.png" alt="Logo" />
     <div class="title-text">
       <h1>棒球賓果卡</h1>
       <small>Baseball Bingo Card</small>
@@ -60,6 +61,7 @@
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
   <script>
+    const jsPDF = window.jspdf.jsPDF;
     const baseballEvents = [
       { zh: "全壘打", en: "Home Run" }, { zh: "安打", en: "Base Hit" }, { zh: "三振", en: "Strikeout" },
       { zh: "保送", en: "Walk" }, { zh: "盜壘成功", en: "Stolen Base" }, { zh: "雙殺守備", en: "Double Play" },
@@ -110,7 +112,6 @@
 
     async function downloadPDF() {
       const count = parseInt(document.getElementById('pdfCount').value);
-      const { jsPDF } = window.jspdf;
       const pdf = new jsPDF();
       for (let i = 0; i < count; i++) {
         generateBingo();
@@ -128,12 +129,9 @@
       const qrDiv = document.getElementById('qr-container');
       const qrCodeBox = document.getElementById("qrcode");
       qrDiv.style.display = 'block';
-      qrCodeBox.innerHTML = ""; // 清空舊的 QR Code
-
-      const qrDiv = document.getElementById('qr-container');
-      qrDiv.style.display = 'block';
-      const url = "https://your-website.com/bingo";
-      new QRCode(document.getElementById("qrcode"), url);
+      qrCodeBox.innerHTML = "";
+      const url = "https://1daysportsfan.github.io/bingo_card_project/";
+      new QRCode(qrCodeBox, url);
     }
 
     generateBingo();
