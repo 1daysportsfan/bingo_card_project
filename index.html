@@ -139,7 +139,33 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
   <script>
     const jsPDF = window.jspdf.jsPDF;
-    const baseballEvents = [...Array(25)].map((_, i) => ({ zh: "項目" + (i+1), en: "Event " + (i+1) }));
+    const baseballEvents = [
+  { zh: "全壘打", en: "Home Run" },
+  { zh: "安打", en: "Base Hit" },
+  { zh: "三振", en: "Strikeout" },
+  { zh: "保送", en: "Walk" },
+  { zh: "盜壘成功", en: "Stolen Base" },
+  { zh: "雙殺守備", en: "Double Play" },
+  { zh: "高飛犧牲打", en: "Sacrifice Fly" },
+  { zh: "教練抗議", en: "Coach Arguing" },
+  { zh: "挑戰成功", en: "Challenge Success" },
+  { zh: "暴投", en: "Wild Pitch" },
+  { zh: "再見安打", en: "Walk-off Hit" },
+  { zh: "游擊美技", en: "Shortstop Gem" },
+  { zh: "界外接殺", en: "Foul Out" },
+  { zh: "捕逸", en: "Passed Ball" },
+  { zh: "觸身球", en: "Hit by Pitch" },
+  { zh: "失誤", en: "Error" },
+  { zh: "滾地球出局", en: "Ground Out" },
+  { zh: "飛球出局", en: "Fly Out" },
+  { zh: "打擊延長", en: "Long At-Bat" },
+  { zh: "再見全壘打", en: "Walk-off HR" },
+  { zh: "野手選擇", en: "Fielder's Choice" },
+  { zh: "外野助殺", en: "Outfield Assist" },
+  { zh: "換守位置", en: "Position Change" },
+  { zh: "觸擊成功", en: "Successful Bunt" },
+  { zh: "投手換人", en: "Pitching Change" }
+];
 
     function shuffle(arr) { return arr.sort(() => Math.random() - 0.5); }
 
