@@ -111,9 +111,9 @@
     </div>
   </div>
 
+  <div id="bingo-message" style="margin-top:20px;color:#E91E63;font-size:22px;font-weight:bold;"></div>
   <div class="main-container">
     <div id="bingo" class="bingo"></div>
-    <div id="bingo-message" style="margin-top:10px;color:#E91E63;font-size:20px;font-weight:bold;"></div>
     <div class="btn-group">
       <label for="lang">顯示語言：</label>
       <select id="lang" onchange="generateBingo()">
@@ -131,7 +131,7 @@
       <button onclick="downloadPDF()">📄 批次匯出 PDF</button>
       <button onclick="showQRCode()">🔗 顯示 QR Code</button>
       <button onclick="location.href='help.html'">❓ 幫助說明</button>
-      <div id="qr-container"><div id="qrcode"></div><div style="height: 20px;"></div></div>
+      <div id="qr-container"><div id="qrcode"></div><div style="height: 20px;"></div><div style="height: 20px;"></div></div>
     </div>
   </div>
 
@@ -199,7 +199,9 @@
 
     function checkBingo() {
       const cells = document.querySelectorAll('.cell');
-      cells.forEach(c => c.classList.remove('bingo-flash'));
+      const message = document.getElementById('bingo-message');
+  if (message) message.textContent = ''; // 清除訊息
+  cells.forEach(c => c.classList.remove('bingo-flash'));
       const marked = [...cells].map(c => c.classList.contains('marked'));
       const lines = [
         [0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24],
