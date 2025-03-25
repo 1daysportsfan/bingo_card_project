@@ -216,12 +216,14 @@
     const bingoTag = document.createElement('div');
     bingoTag.textContent = 'BINGO!!';
     bingoTag.style.position = 'absolute';
-    bingoTag.style.top = '5px';
+    bingoTag.style.zIndex = '10';
+    bingoTag.style.background = 'transparent';
+    bingoTag.style.top = '-8px';
     bingoTag.style.left = '0';
     bingoTag.style.width = '100%';
     bingoTag.style.textAlign = 'center';
     bingoTag.style.fontWeight = 'bold';
-    bingoTag.style.fontSize = '14px';
+    bingoTag.style.fontSize = '12px';
     bingoTag.style.color = '#E91E63';
     bingoTag.classList.add('bingo-label');
     cells[i].style.position = 'relative';
