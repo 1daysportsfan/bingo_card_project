@@ -42,6 +42,11 @@
     }
     .cell.marked { background: #4CAF50; color: white; font-weight: bold; }
     .free { background: #ccc; font-weight: bold; }
+    .bingo-flash { animation: flash 0.3s alternate infinite; }
+    @keyframes flash {
+      0% { background-color: #4CAF50; }
+      100% { background-color: #FF5722; }
+    }
 
     .btn-group {
       display: flex;
@@ -85,8 +90,8 @@
       width: 100%;
     }
     #qr-container #qrcode {
-      width: 90px;
-      height: 90px;
+      width: 120px;
+      height: 120px;
       margin: 0 auto;
     }
 
@@ -108,7 +113,6 @@
 
   <div class="main-container">
     <div id="bingo" class="bingo"></div>
-
     <div class="btn-group">
       <label for="lang">顯示語言：</label>
       <select id="lang" onchange="generateBingo()">
@@ -116,20 +120,17 @@
         <option value="en">English</option>
         <option value="both" selected>中英對照</option>
       </select>
-
       <div class="pdf-count-row">
         <input type="number" id="pdfCount" value="5" min="1" max="50">
         <span>張</span>
       </div>
-
       <button onclick="generateBingo()">🔄 重新產生</button>
       <button onclick="window.print()">🖨️ 列印賓果卡</button>
       <button onclick="downloadAsImage()">📥 下載圖片</button>
       <button onclick="downloadPDF()">📄 批次匯出 PDF</button>
       <button onclick="showQRCode()">🔗 顯示 QR Code</button>
-      <div id="qr-container">
-        <div id="qrcode"></div>
-      </div>
+      <button onclick="location.href='help.html'">❓ 幫助說明</button>
+      <div id="qr-container"><div id="qrcode"></div></div>
     </div>
   </div>
 
@@ -138,14 +139,9 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
   <script>
     const jsPDF = window.jspdf.jsPDF;
-    const baseballEvents = [...Array(25)].map((_, i) => ({
-      zh: "項目" + (i + 1),
-      en: "Event " + (i + 1)
-    }));
+    const baseballEvents = [...Array(25)].map((_, i) => ({ zh: "項目" + (i+1), en: "Event " + (i+1) }));
 
-    function shuffle(arr) {
-      return arr.sort(() => Math.random() - 0.5);
-    }
+    function shuffle(arr) { return arr.sort(() => Math.random() - 0.5); }
 
     function generateBingo() {
       const lang = document.getElementById('lang').value;
@@ -176,6 +172,7 @@
 
     function checkBingo() {
       const cells = document.querySelectorAll('.cell');
+      cells.forEach(c => c.classList.remove('bingo-flash'));
       const marked = [...cells].map(c => c.classList.contains('marked'));
       const lines = [
         [0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24],
@@ -184,8 +181,7 @@
       ];
       for (const line of lines) {
         if (line.every(i => marked[i])) {
-          alert('Bingo!');
-          break;
+          line.forEach(i => cells[i].classList.add('bingo-flash'));
         }
       }
     }
@@ -220,11 +216,7 @@
       qrDiv.style.display = 'block';
       qrCodeBox.innerHTML = "";
       const url = "https://1daysportsfan.github.io/bingo_card_project/";
-      new QRCode(qrCodeBox, {
-        text: url,
-        width: 90,
-        height: 90
-      });
+      new QRCode(qrCodeBox, { text: url, width: 120, height: 120 });
     }
 
     generateBingo();
