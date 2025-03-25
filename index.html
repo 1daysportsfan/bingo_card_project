@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>棒球賓果卡</title>
   <style>
     body { font-family: 'Arial', sans-serif; background: #eee; margin: 0; padding: 0; text-align: center; }
@@ -10,37 +9,97 @@
     #logo { width: 60px; height: auto; }
     .title-text h1 { margin: 0; font-size: 24px; }
     .title-text small { font-size: 14px; color: #555; }
-    .main-container { display: flex; justify-content: center; align-items: flex-start; gap: 40px; margin: 20px auto; max-width: 1000px; flex-wrap: wrap; }
-    .bingo { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; background: white; padding: 10px; width: 100%; max-width: 500px; }
-    .cell { background: white; border: 2px solid #444; padding: 10px; min-height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; user-select: none; }
+
+    .main-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .bingo {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      background: white;
+      padding: 10px;
+      width: fit-content;
+    }
+    .cell {
+      background: white;
+      border: 2px solid #444;
+      padding: 10px;
+      min-height: 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+    }
     .cell.marked { background: #4CAF50; color: white; font-weight: bold; }
     .free { background: #ccc; font-weight: bold; }
-    .btn-group { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; width: 200px; }
-    .pdf-count-row { display: flex; align-items: center; gap: 5px; width: 100%; }
-    select, button, input[type=number] { width: 100%; box-sizing: border-box; padding: 10px 15px; font-size: 14px; }
-    .pdf-count-row input[type=number] { flex: 1; margin: 0; }
-    .pdf-count-row span { white-space: nowrap; }
-    button { background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    button:hover { background: #1976D2; }
-    
-#qr-container {
-  margin-top: 10px;
-  display: none;
-  text-align: center;
-  width: 100%;
-}
-#qr-container #qrcode {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto;
-}
 
-    @media print { .btn-group, #qr-container { display: none; } body { background: white; } .cell { cursor: default; } }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      width: 200px;
+    }
+    .pdf-count-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      width: 100%;
+    }
+    select, button, input[type=number] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 15px;
+      font-size: 14px;
+    }
+    .pdf-count-row input[type=number] {
+      flex: 1;
+      margin: 0;
+    }
+    .pdf-count-row span {
+      white-space: nowrap;
+    }
+    button {
+      background: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover { background: #1976D2; }
+
+    #qr-container {
+      margin-top: 10px;
+      display: none;
+      text-align: center;
+      width: 100%;
+    }
+    #qr-container #qrcode {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto;
+    }
+
+    @media print {
+      .btn-group, #qr-container { display: none; }
+      body { background: white; }
+      .cell { cursor: default; }
+    }
   </style>
 </head>
 <body>
   <div class="title-container">
-    <img id="logo" src="logo.png" alt="Logo" />
+    <img id="logo" src="logo.png" alt="Logo">
     <div class="title-text">
       <h1>棒球賓果卡</h1>
       <small>Baseball Bingo Card</small>
@@ -49,6 +108,7 @@
 
   <div class="main-container">
     <div id="bingo" class="bingo"></div>
+
     <div class="btn-group">
       <label for="lang">顯示語言：</label>
       <select id="lang" onchange="generateBingo()">
@@ -56,35 +116,32 @@
         <option value="en">English</option>
         <option value="both" selected>中英對照</option>
       </select>
+
       <div class="pdf-count-row">
-        <input type="number" id="pdfCount" value="5" min="1" max="50"><span>張</span>
+        <input type="number" id="pdfCount" value="5" min="1" max="50">
+        <span>張</span>
       </div>
+
       <button onclick="generateBingo()">🔄 重新產生</button>
       <button onclick="window.print()">🖨️ 列印賓果卡</button>
       <button onclick="downloadAsImage()">📥 下載圖片</button>
       <button onclick="downloadPDF()">📄 批次匯出 PDF</button>
       <button onclick="showQRCode()">🔗 顯示 QR Code</button>
+      <div id="qr-container">
+        <div id="qrcode"></div>
+      </div>
     </div>
   </div>
-
-  <div id="qr-container"><p>掃描 QR Code 分享此賓果卡：</p><div id="qrcode"></div></div>
 
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
   <script>
     const jsPDF = window.jspdf.jsPDF;
-    const baseballEvents = [
-      { zh: "全壘打", en: "Home Run" }, { zh: "安打", en: "Base Hit" }, { zh: "三振", en: "Strikeout" },
-      { zh: "保送", en: "Walk" }, { zh: "盜壘成功", en: "Stolen Base" }, { zh: "雙殺守備", en: "Double Play" },
-      { zh: "高飛犧牲打", en: "Sacrifice Fly" }, { zh: "教練抗議", en: "Coach Arguing" }, { zh: "挑戰成功", en: "Challenge Success" },
-      { zh: "暴投", en: "Wild Pitch" }, { zh: "再見安打", en: "Walk-off Hit" }, { zh: "游擊美技", en: "Shortstop Gem" },
-      { zh: "界外接殺", en: "Foul Out" }, { zh: "捕逸", en: "Passed Ball" }, { zh: "觸身球", en: "Hit by Pitch" },
-      { zh: "失誤", en: "Error" }, { zh: "滾地球出局", en: "Ground Out" }, { zh: "飛球出局", en: "Fly Out" },
-      { zh: "打擊延長", en: "Long At-Bat" }, { zh: "再見全壘打", en: "Walk-off HR" }, { zh: "野手選擇", en: "Fielder's Choice" },
-      { zh: "外野助殺", en: "Outfield Assist" }, { zh: "換守位置", en: "Position Change" }, { zh: "觸擊成功", en: "Successful Bunt" },
-      { zh: "投手換人", en: "Pitching Change" }
-    ];
+    const baseballEvents = [...Array(25)].map((_, i) => ({
+      zh: "項目" + (i + 1),
+      en: "Event " + (i + 1)
+    }));
 
     function shuffle(arr) {
       return arr.sort(() => Math.random() - 0.5);
@@ -99,6 +156,7 @@
       for (let i = 0; i < 25; i++) {
         const cell = document.createElement('div');
         cell.className = 'cell';
+        cell.dataset.index = i;
         if (i === 12) {
           cell.innerHTML = '<strong>Free Space</strong>';
           cell.classList.add('marked', 'free');
@@ -107,9 +165,28 @@
           if (lang === 'zh') cell.innerHTML = event.zh;
           else if (lang === 'en') cell.innerHTML = event.en;
           else cell.innerHTML = `<div>${event.zh}</div><div style="font-size:12px;color:gray;">${event.en}</div>`;
-          cell.onclick = () => cell.classList.toggle('marked');
+          cell.onclick = () => {
+            cell.classList.toggle('marked');
+            checkBingo();
+          }
         }
         bingoDiv.appendChild(cell);
+      }
+    }
+
+    function checkBingo() {
+      const cells = document.querySelectorAll('.cell');
+      const marked = [...cells].map(c => c.classList.contains('marked'));
+      const lines = [
+        [0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24],
+        [0,5,10,15,20],[1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24],
+        [0,6,12,18,24],[4,8,12,16,20]
+      ];
+      for (const line of lines) {
+        if (line.every(i => marked[i])) {
+          alert('Bingo!');
+          break;
+        }
       }
     }
 
@@ -144,10 +221,10 @@
       qrCodeBox.innerHTML = "";
       const url = "https://1daysportsfan.github.io/bingo_card_project/";
       new QRCode(qrCodeBox, {
-  text: url,
-  width: 120,
-  height: 120
-});
+        text: url,
+        width: 120,
+        height: 120
+      });
     }
 
     generateBingo();
