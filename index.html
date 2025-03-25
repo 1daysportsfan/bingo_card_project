@@ -113,6 +113,7 @@
 
   <div class="main-container">
     <div id="bingo" class="bingo"></div>
+      <div id="bingo-message" style="display:none;"></div>
       <div id="bingo-message" style="margin-top:10px;color:#E91E63;font-size:20px;font-weight:bold;"></div>
     <div class="btn-group">
       <label for="lang">顯示語言：</label>
@@ -210,7 +211,10 @@
       ];
       for (const line of lines) {
         if (line.every(i => marked[i])) {
-          line.forEach(i => cells[i].classList.add('bingo-flash'));
+          line.forEach(i => {
+  cells[i].classList.add('bingo-flash');
+  cells[i].innerHTML = '<strong>BINGO!!</strong>';
+});
         }
       }
     }
