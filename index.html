@@ -227,7 +227,11 @@
     bingoTag.style.color = '#E91E63';
     bingoTag.classList.add('bingo-label');
     cells[i].style.position = 'relative';
+    const bingoBottom = bingoTag.cloneNode(true);
+    bingoBottom.style.top = 'auto';
+    bingoBottom.style.bottom = '-8px';
     cells[i].appendChild(bingoTag);
+    cells[i].appendChild(bingoBottom);
 });
         }
       }
