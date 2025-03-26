@@ -214,6 +214,14 @@
   gap: 15px;
 }
 
+
+.sidebar-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-start;
+}
+
 </style>
 
 
@@ -239,7 +247,7 @@
   </select>
 </div>
 
-<div class="sidebar-tools"><div id="ui-lang-select" style="text-align:left; margin-bottom:10px;"><label for="uiLang">🌐 介面語言 Interface Language:</label><br><select id="uiLang" onchange="switchUILang()"><option value="zh" selected>中文</option><option value="en">English</option></select></div><div class="btn-group">
+<div class="sidebar-tools"><label for="uiLang">🌐 介面語言 Interface Language:</label><br><select id="uiLang" onchange="switchUILang()"><option value="zh" selected>中文</option><option value="en">English</option></select><div class="btn-group">
       <label for="lang"><span id="label-lang">顯示語言：</span></label>
       <select id="lang" onchange="generateBingo()">
         <option value="zh">中文</option>
