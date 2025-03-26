@@ -123,8 +123,7 @@
   </div>
 
   <div class="main-container">
-    <div id="bingo-container"><div id="scoreboard" style="margin-top: 15px; font-size: 16px;"><strong>已標記格數：</strong><span id="markedCount">0</span> ／ 24</div>
-      <div id="bingo" class="bingo"></div></div>
+    <div id="bingo-container"><div id="bingo" class="bingo"></div></div>
 
     <div class="btn-group">
       <label for="lang">顯示語言：</label>
@@ -259,11 +258,7 @@
       const pdf = new jsPDF();
       for (let i = 0; i < count; i++) {
         generateBingo();
-updateScore();
-function updateScore() {
-  const marked = document.querySelectorAll(".cell.marked:not(.free)").length;
-  document.getElementById("markedCount").textContent = marked;
-}
+
 
         await html2canvas(document.getElementById('bingo')).then(canvas => {
           const imgData = canvas.toDataURL('image/png');
@@ -284,11 +279,7 @@ function updateScore() {
     }
 
     generateBingo();
-updateScore();
-function updateScore() {
-  const marked = document.querySelectorAll(".cell.marked:not(.free)").length;
-  document.getElementById("markedCount").textContent = marked;
-}
+
 
   </script>
 
