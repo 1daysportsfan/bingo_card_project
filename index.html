@@ -164,13 +164,29 @@
 
 
 @media (max-width: 768px) {
-  .dropdown-tools {
-    width: 95%;
-    margin-top: 20px;
+  .desktop-only { display: none !important; }
+  .mobile-only { display: block !important; }
+  .main-container {
+    flex-direction: column !important;
+    align-items: center;
   }
   .btn-group {
-    margin-top: 10px;
+    width: 95%;
+    align-items: center;
+    margin-top: 20px;
   }
+  .btn-group button {
+    font-size: 18px;
+    padding: 14px 20px;
+  }
+  .cell {
+    font-size: 16px;
+    min-height: 90px;
+    padding: 12px;
+  }
+}
+@media (min-width: 769px) {
+  .mobile-only { display: none !important; }
 }
 
 </style>
@@ -190,19 +206,41 @@
     <div id="bingo-container"><div id="bingo" class="bingo"></div></div>
 
     
-<div class="dropdown-tools">
+<!-- 桌面版工具列 -->
+<div class="btn-group desktop-only">
+  <label for="lang">顯示語言：</label>
+  <select id="lang" onchange="generateBingo()">
+    <option value="zh">中文</option>
+    <option value="en">English</option>
+    <option value="both" selected>中英對照</option>
+  </select>
+
+  <div class="pdf-count-row">
+    <input type="number" id="pdfCount" value="5" min="1" max="50">
+    <span>張</span>
+  </div>
+
+  <button onclick="generateBingo()">🔄 重新產生</button>
+  <button onclick="window.print()">🖨️ 列印賓果卡</button>
+  <button onclick="downloadAsImage()">📥 下載圖片</button>
+  <button onclick="downloadPDF()">📄 批次匯出 PDF</button>
+  <button onclick="location.href='help.html'">❓ 幫助說明</button>
+</div>
+
+<!-- 手機版下拉選單工具列 -->
+<div class="mobile-only dropdown-tools" style="width: 95%;">
   <details>
-    <summary style="font-size: 16px; padding: 10px; background: #2196F3; color: white; border-radius: 5px; cursor: pointer;">☰ 顯示操作選單</summary>
+    <summary style="font-size: 16px; padding: 10px; background: #2196F3; color: white; border-radius: 5px; cursor: pointer; text-align: center;">☰ 顯示操作選單</summary>
     <div class="btn-group">
       <label for="lang">顯示語言：</label>
-      <select id="lang" onchange="generateBingo()">
+      <select id="lang_mobile" onchange="syncLang(this.value); generateBingo()">
         <option value="zh">中文</option>
         <option value="en">English</option>
         <option value="both" selected>中英對照</option>
       </select>
 
       <div class="pdf-count-row">
-        <input type="number" id="pdfCount" value="5" min="1" max="50">
+        <input type="number" id="pdfCount_mobile" value="5" min="1" max="50">
         <span>張</span>
       </div>
 
@@ -214,6 +252,14 @@
     </div>
   </details>
 </div>
+
+<script>
+  // 確保手機與桌面語言設定同步
+  function syncLang(value) {
+    const lang = document.getElementById("lang");
+    if (lang) lang.value = value;
+  }
+</script>
 </div>
 
   <!-- QR Code disabled -->
