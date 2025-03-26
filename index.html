@@ -4,134 +4,198 @@
 <head>
   <meta charset="UTF-8" />
   <title>棒球賓果卡</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #ecf0f1;
-      text-align: center;
-    }
-
-    .title-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 10px;
-      gap: 10px;
-    }
-
-    #logo {
-      width: 50px;
-    }
-
-    .title-text h1 {
-      margin: 0;
-      font-size: 22px;
-    }
-
-    .title-text small {
-      font-size: 13px;
-      color: #555;
-    }
+    body { font-family: 'Arial'; background: #eee; margin: 0; padding: 0; text-align: center; }
+    .title-container { display: flex; justify-content: center; align-items: center; margin-top: 20px; gap: 15px; }
+    #logo { width: 60px; height: auto; }
+    .title-text h1 { margin: 0; font-size: 24px; }
+    .title-text small { font-size: 14px; color: #555; }
 
     .main-container {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      padding: 10px;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 20px;
     }
 
-    #bingo {
+    #bingo-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .bingo {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 3px;
+      gap: 4px;
       background: white;
-      padding: 5px;
-      width: 95vw;
-      max-width: 500px;
+      padding: 10px;
+      width: fit-content;
     }
 
     .cell {
+      background: white;
       border: 2px solid #444;
-      padding: 6px;
-      min-height: 80px;
+      padding: 10px;
+      min-height: 70px;
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: center;
       font-size: 13px;
       cursor: pointer;
-      user-select: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .cell.marked { background: #4CAF50; color: white; font-weight: bold; }
+    .free { background: #ccc; font-weight: bold; }
+
+    .bingo-label {
+      animation: bingoFade 1s ease-in-out infinite;
+      color: #d81b60;
+      text-shadow: 0 0 2px white;
+      font-weight: bold;
+      font-size: 12px;
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      pointer-events: none;
     }
 
-    .marked {
-      background: #4CAF50;
-      color: white;
-      font-weight: bold;
-    }
+    .bingo-label.top { top: 2px; }
+    .bingo-label.bottom { bottom: 2px; }
 
-    .free {
-      background: #ccc;
-      font-weight: bold;
+    @keyframes bingoFade {
+      0% { opacity: 0; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 1; transform: scale(1); }
     }
 
     .btn-group {
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
       gap: 10px;
-      width: 90%;
-      max-width: 400px;
-      margin: 0 auto;
+      width: 200px;
     }
 
-    select, input[type=number], button {
+    .pdf-count-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      width: 100%;
+    }
+
+    select, button, input[type=number] {
+      width: 100%;
       padding: 10px;
       font-size: 14px;
-      width: 100%;
-      box-sizing: border-box;
     }
 
     button {
-      background: #3498db;
+      background: #2196F3;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
 
-    button:hover {
-      background: #2980b9;
-    }
-
-    .pdf-count-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .pdf-count-row input {
-      flex: 1;
-    }
-
-    #message {
-      margin-top: 10px;
-      font-size: 16px;
-      font-weight: bold;
-      color: #e74c3c;
-    }
-
+    button:hover { background: #1976D2; }
+    #qr-container { margin-top: 20px; display: none; }
+  
     @media print {
-      .btn-group, select, input {
-        display: none;
+      body {
+        background: white;
       }
-
-      #message {
-        display: none;
+      .title-container,
+      .btn-group,
+      #qr-container,
+      select,
+      input,
+      label,
+      button,
+      .pdf-count-row {
+        display: none !important;
       }
     }
-  </style>
+
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .btn-group {
+        width: 90%;
+        align-items: center;
+      }
+      .btn-group button {
+        font-size: 16px;
+      }
+      .cell {
+        font-size: 12px;
+        min-height: 60px;
+      }
+    }
+
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column !important;
+    align-items: center;
+  }
+  .btn-group {
+    width: 95%;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .btn-group button {
+    font-size: 18px;
+    padding: 14px 20px;
+  }
+  .cell {
+    font-size: 16px;
+    min-height: 90px;
+    padding: 12px;
+  }
+  .bingo-label {
+    font-size: 14px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column !important;
+    align-items: center;
+  }
+  #bingo-container {
+    width: 100%;
+    justify-content: center;
+  }
+  .bingo {
+    width: 95%;
+    max-width: 450px;
+  }
+  .cell {
+    font-size: 16px;
+    min-height: 90px;
+    padding: 12px 6px;
+  }
+  .btn-group {
+    width: 95%;
+    align-items: center;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+  .btn-group button {
+    font-size: 18px;
+    padding: 14px 18px;
+  }
+}
+
+</style>
+
+
 </head>
 <body>
   <div class="title-container">
@@ -143,7 +207,7 @@
   </div>
 
   <div class="main-container">
-    <div id="bingo" class="bingo"></div>
+    <div id="bingo-container"><div id="bingo" class="bingo"></div></div>
 
     <div class="btn-group">
       <label for="lang">顯示語言：</label>
@@ -162,16 +226,22 @@
       <button onclick="window.print()">🖨️ 列印賓果卡</button>
       <button onclick="downloadAsImage()">📥 下載圖片</button>
       <button onclick="downloadPDF()">📄 批次匯出 PDF</button>
-      <button onclick="location.href='help.html'">❓ 幫助說明</button>
+            <button onclick="window.location.href='help.html'">❓ 幫助說明</button>
     </div>
-
-    <div id="message"></div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <!-- QR Code disabled -->
+<div id="qr-container" style="display:none;">
+    <p>掃描 QR Code 分享此賓果卡：</p>
+    <div id="qrcode"></div>
+    <div style="height: 20px;"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
-    const events = [
+    const baseballEvents = [
       { zh: "全壘打", en: "Home Run" },
       { zh: "安打", en: "Base Hit" },
       { zh: "三振", en: "Strikeout" },
@@ -199,67 +269,66 @@
       { zh: "投手換人", en: "Pitching Change" }
     ];
 
-    function shuffle(array) {
-      return array.sort(() => Math.random() - 0.5);
+    function shuffle(arr) {
+      return arr.sort(() => Math.random() - 0.5);
     }
 
     function generateBingo() {
       const lang = document.getElementById('lang').value;
-      const bingo = document.getElementById('bingo');
-      bingo.innerHTML = '';
-      const shuffled = shuffle([...events]);
+      const bingoDiv = document.getElementById('bingo');
+      bingoDiv.innerHTML = '';
+      const shuffled = shuffle([...baseballEvents]);
       let count = 0;
 
       for (let i = 0; i < 25; i++) {
         const cell = document.createElement('div');
         cell.className = 'cell';
-
         if (i === 12) {
           cell.innerHTML = '<strong>Free Space</strong>';
           cell.classList.add('marked', 'free');
         } else {
-          const e = shuffled[count++];
-          if (lang === 'zh') cell.innerHTML = e.zh;
-          else if (lang === 'en') cell.innerHTML = e.en;
-          else cell.innerHTML = `<div>${e.zh}</div><div style="font-size:11px; color:#666;">${e.en}</div>`;
+          const event = shuffled[count++];
+          if (lang === 'zh') cell.innerHTML = event.zh;
+          else if (lang === 'en') cell.innerHTML = event.en;
+          else cell.innerHTML = `<div>${event.zh}</div><div style="font-size:12px;color:gray;">${event.en}</div>`;
           cell.onclick = () => {
             cell.classList.toggle('marked');
             checkBingo();
           };
         }
-
-        bingo.appendChild(cell);
+        bingoDiv.appendChild(cell);
       }
-
-      document.getElementById('message').innerHTML = '';
     }
 
     function checkBingo() {
-      const cells = document.querySelectorAll('.cell');
-      const indexes = [...Array(25).keys()];
-      const lines = [];
-
-      for (let i = 0; i < 5; i++) {
-        lines.push(indexes.slice(i * 5, i * 5 + 5)); // row
-        lines.push(indexes.filter((_, j) => j % 5 === i)); // column
-      }
-      lines.push([0, 6, 12, 18, 24]); // diagonal
-      lines.push([4, 8, 12, 16, 20]); // anti-diagonal
-
-      for (const line of lines) {
+      const cells = [...document.querySelectorAll('.cell')];
+      const lines = [
+        [0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24],
+        [0,5,10,15,20],[1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24],
+        [0,6,12,18,24],[4,8,12,16,20]
+      ];
+      lines.forEach(line => {
         if (line.every(i => cells[i].classList.contains('marked'))) {
-          document.getElementById('message').innerHTML = '🎉 BINGO！恭喜你完成一列！🎉';
-          return;
+          line.forEach(i => {
+            if (!cells[i].querySelector('.bingo-label')) {
+              const top = document.createElement('div');
+              top.className = 'bingo-label top';
+              top.textContent = 'BINGO!!';
+              const bottom = document.createElement('div');
+              bottom.className = 'bingo-label bottom';
+              bottom.textContent = 'BINGO!!';
+              cells[i].appendChild(top);
+              cells[i].appendChild(bottom);
+            }
+          });
         }
-      }
-
-      document.getElementById('message').innerHTML = '';
+      });
     }
 
     function downloadAsImage() {
       html2canvas(document.getElementById('bingo')).then(canvas => {
         const link = document.createElement('a');
-        link.download = 'bingo_card.png';
+        link.download = 'bingo.png';
         link.href = canvas.toDataURL();
         link.click();
       });
@@ -269,21 +338,45 @@
       const count = parseInt(document.getElementById('pdfCount').value);
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF();
-
       for (let i = 0; i < count; i++) {
         generateBingo();
         await html2canvas(document.getElementById('bingo')).then(canvas => {
-          const img = canvas.toDataURL();
+          const imgData = canvas.toDataURL('image/png');
           if (i > 0) pdf.addPage();
           pdf.text(`棒球賓果卡 #${i + 1}`, 10, 10);
-          pdf.addImage(img, 'PNG', 10, 20, 190, 190);
+          pdf.addImage(imgData, 'PNG', 10, 20, 190, 190);
         });
       }
+      pdf.save('bingo_cards.pdf');
+    }
 
-      pdf.save("bingo_cards.pdf");
+    function showQRCode() { /* QR Code disabled */ return;
+      const qrDiv = document.getElementById('qr-container');
+      qrDiv.style.display = 'block';
+      const url = "https://your-website.com/bingo";
+      document.getElementById("qrcode").innerHTML = "";
+      new QRCode(document.getElementById("qrcode"), url);
     }
 
     generateBingo();
   </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <div id="qr-container" style="margin-top:20px; display:none;">
+    <p>掃描 QR Code 分享此賓果卡：</p>
+    <div id="qrcode"></div>
+    <div style="height: 20px;"></div>
+  </div>
+  <script>
+    function showQRCode() { /* QR Code disabled */ return;
+      const qrDiv = document.getElementById('qr-container');
+      qrDiv.style.display = 'block';
+      document.getElementById("qrcode").innerHTML = "";
+      const url = "https://your-website.com/bingo";
+      new QRCode(document.getElementById("qrcode"), url);
+    }
+  </script>
 </body>
+</html>
+
 </html>
