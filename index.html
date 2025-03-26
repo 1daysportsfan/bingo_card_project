@@ -162,6 +162,17 @@
   }
 }
 
+
+@media (max-width: 768px) {
+  .dropdown-tools {
+    width: 95%;
+    margin-top: 20px;
+  }
+  .btn-group {
+    margin-top: 10px;
+  }
+}
+
 </style>
 
 
@@ -178,6 +189,10 @@
   <div class="main-container">
     <div id="bingo-container"><div id="bingo" class="bingo"></div></div>
 
+    
+<div class="dropdown-tools">
+  <details>
+    <summary style="font-size: 16px; padding: 10px; background: #2196F3; color: white; border-radius: 5px; cursor: pointer;">☰ 顯示操作選單</summary>
     <div class="btn-group">
       <label for="lang">顯示語言：</label>
       <select id="lang" onchange="generateBingo()">
@@ -187,7 +202,7 @@
       </select>
 
       <div class="pdf-count-row">
-        <input type="number" id="pdfCount" value="5" min="1" max="50" />
+        <input type="number" id="pdfCount" value="5" min="1" max="50">
         <span>張</span>
       </div>
 
@@ -195,9 +210,11 @@
       <button onclick="window.print()">🖨️ 列印賓果卡</button>
       <button onclick="downloadAsImage()">📥 下載圖片</button>
       <button onclick="downloadPDF()">📄 批次匯出 PDF</button>
-            <button onclick="window.location.href='help.html'">❓ 幫助說明</button>
+      <button onclick="location.href='help.html'">❓ 幫助說明</button>
     </div>
-  </div>
+  </details>
+</div>
+</div>
 
   <!-- QR Code disabled -->
 <div id="qr-container" style="display:none;">
