@@ -134,12 +134,12 @@
       <button onclick="window.print()">🖨️ 列印賓果卡</button>
       <button onclick="downloadAsImage()">📥 下載圖片</button>
       <button onclick="downloadPDF()">📄 批次匯出 PDF</button>
-      <button onclick="showQRCode()">🔗 顯示 QR Code</button>
-      <button onclick="window.location.href='help.html'">❓ 幫助說明</button>
+            <button onclick="window.location.href='help.html'">❓ 幫助說明</button>
     </div>
   </div>
 
-  <div id="qr-container">
+  <!-- QR Code disabled -->
+<div id="qr-container" style="display:none;">
     <p>掃描 QR Code 分享此賓果卡：</p>
     <div id="qrcode"></div>
     <div style="height: 20px;"></div>
@@ -258,7 +258,7 @@
       pdf.save('bingo_cards.pdf');
     }
 
-    function showQRCode() {
+    function showQRCode() { /* QR Code disabled */ return;
       const qrDiv = document.getElementById('qr-container');
       qrDiv.style.display = 'block';
       const url = "https://your-website.com/bingo";
@@ -276,7 +276,7 @@
     <div style="height: 20px;"></div>
   </div>
   <script>
-    function showQRCode() {
+    function showQRCode() { /* QR Code disabled */ return;
       const qrDiv = document.getElementById('qr-container');
       qrDiv.style.display = 'block';
       document.getElementById("qrcode").innerHTML = "";
