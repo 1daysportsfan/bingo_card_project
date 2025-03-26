@@ -2,12 +2,40 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>棒球賓果卡</title>
   <style>
+    body { font-family: 'Arial'; background: #eee; margin: 0; padding: 0; text-align: center; }
+    .title-container { display: flex; justify-content: center; align-items: center; margin-top: 20px; gap: 15px; }
+    #logo { width: 60px; height: auto; }
+    .title-text h1 { margin: 0; font-size: 24px; }
+    .title-text small { font-size: 14px; color: #555; }
+
+    .main-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    #bingo-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .bingo {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      background: white;
+      padding: 10px;
+      width: fit-content;
+    }
+
     .cell {
-      position: relative;
-      overflow: hidden;
+      background: white;
       border: 2px solid #444;
       padding: 10px;
       min-height: 70px;
@@ -16,31 +44,229 @@
       align-items: center;
       justify-content: center;
       font-size: 13px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
     }
+    .cell.marked { background: #4CAF50; color: white; font-weight: bold; }
+    .free { background: #ccc; font-weight: bold; }
+
+    .bingo-label {
+      animation: bingoFade 1s ease-in-out;
+      color: #d81b60;
+      text-shadow: 0 0 2px white;
+      font-weight: bold;
+      font-size: 12px;
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .bingo-label.top { top: 2px; }
+    .bingo-label.bottom { bottom: 2px; }
+
     @keyframes bingoFade {
       0% { opacity: 0; transform: scale(1); }
       50% { opacity: 1; transform: scale(1.2); }
       100% { opacity: 1; transform: scale(1); }
     }
-    .bingo-label {
-      animation: bingoFade 1s ease-in-out;
-      color: #d81b60;
-      text-shadow: 0 0 2px white;
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      font-size: 12px;
-      font-weight: bold;
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      width: 200px;
     }
-    .bingo-label.top { top: 2px; }
-    .bingo-label.bottom { bottom: 2px; }
+
+    .pdf-count-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      width: 100%;
+    }
+
+    select, button, input[type=number] {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    button {
+      background: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover { background: #1976D2; }
+    #qr-container { margin-top: 20px; display: none; }
   </style>
 </head>
 <body>
-  <div class="cell">
-    <div class="bingo-label top">BINGO!!</div>
-    原事件文字示例
-    <div class="bingo-label bottom">BINGO!!</div>
+  <div class="title-container">
+    <img id="logo" src="logo.png" alt="Logo" />
+    <div class="title-text">
+      <h1>棒球賓果卡</h1>
+      <small>Baseball Bingo Card</small>
+    </div>
   </div>
+
+  <div class="main-container">
+    <div id="bingo-container"><div id="bingo" class="bingo"></div></div>
+
+    <div class="btn-group">
+      <label for="lang">顯示語言：</label>
+      <select id="lang" onchange="generateBingo()">
+        <option value="zh">中文</option>
+        <option value="en">English</option>
+        <option value="both" selected>中英對照</option>
+      </select>
+
+      <div class="pdf-count-row">
+        <input type="number" id="pdfCount" value="5" min="1" max="50" />
+        <span>張</span>
+      </div>
+
+      <button onclick="generateBingo()">🔄 重新產生</button>
+      <button onclick="window.print()">🖨️ 列印賓果卡</button>
+      <button onclick="downloadAsImage()">📥 下載圖片</button>
+      <button onclick="downloadPDF()">📄 批次匯出 PDF</button>
+      <button onclick="showQRCode()">🔗 顯示 QR Code</button>
+      <button onclick="window.location.href='help.html'">❓ 幫助說明</button>
+    </div>
+  </div>
+
+  <div id="qr-container">
+    <p>掃描 QR Code 分享此賓果卡：</p>
+    <div id="qrcode"></div>
+    <div style="height: 20px;"></div>
+  </div>
+
+  <script src="libs/html2canvas.min.js"></script>
+  <script src="libs/jspdf.umd.min.js"></script>
+  <script src="libs/qrcode.min.js"></script>
+  <script>
+    const baseballEvents = [
+      { zh: "全壘打", en: "Home Run" },
+      { zh: "安打", en: "Base Hit" },
+      { zh: "三振", en: "Strikeout" },
+      { zh: "保送", en: "Walk" },
+      { zh: "盜壘成功", en: "Stolen Base" },
+      { zh: "雙殺守備", en: "Double Play" },
+      { zh: "高飛犧牲打", en: "Sacrifice Fly" },
+      { zh: "教練抗議", en: "Coach Arguing" },
+      { zh: "挑戰成功", en: "Challenge Success" },
+      { zh: "暴投", en: "Wild Pitch" },
+      { zh: "再見安打", en: "Walk-off Hit" },
+      { zh: "游擊美技", en: "Shortstop Gem" },
+      { zh: "界外接殺", en: "Foul Out" },
+      { zh: "捕逸", en: "Passed Ball" },
+      { zh: "觸身球", en: "Hit by Pitch" },
+      { zh: "失誤", en: "Error" },
+      { zh: "滾地球出局", en: "Ground Out" },
+      { zh: "飛球出局", en: "Fly Out" },
+      { zh: "打擊延長", en: "Long At-Bat" },
+      { zh: "再見全壘打", en: "Walk-off HR" },
+      { zh: "野手選擇", en: "Fielder's Choice" },
+      { zh: "外野助殺", en: "Outfield Assist" },
+      { zh: "換守位置", en: "Position Change" },
+      { zh: "觸擊成功", en: "Successful Bunt" },
+      { zh: "投手換人", en: "Pitching Change" }
+    ];
+
+    function shuffle(arr) {
+      return arr.sort(() => Math.random() - 0.5);
+    }
+
+    function generateBingo() {
+      const lang = document.getElementById('lang').value;
+      const bingoDiv = document.getElementById('bingo');
+      bingoDiv.innerHTML = '';
+      const shuffled = shuffle([...baseballEvents]);
+      let count = 0;
+
+      for (let i = 0; i < 25; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        if (i === 12) {
+          cell.innerHTML = '<strong>Free Space</strong>';
+          cell.classList.add('marked', 'free');
+        } else {
+          const event = shuffled[count++];
+          if (lang === 'zh') cell.innerHTML = event.zh;
+          else if (lang === 'en') cell.innerHTML = event.en;
+          else cell.innerHTML = `<div>${event.zh}</div><div style="font-size:12px;color:gray;">${event.en}</div>`;
+          cell.onclick = () => {
+            cell.classList.toggle('marked');
+            checkBingo();
+          };
+        }
+        bingoDiv.appendChild(cell);
+      }
+    }
+
+    function checkBingo() {
+      const cells = [...document.querySelectorAll('.cell')];
+      const lines = [
+        [0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24],
+        [0,5,10,15,20],[1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24],
+        [0,6,12,18,24],[4,8,12,16,20]
+      ];
+      lines.forEach(line => {
+        if (line.every(i => cells[i].classList.contains('marked'))) {
+          line.forEach(i => {
+            if (!cells[i].querySelector('.bingo-label')) {
+              const top = document.createElement('div');
+              top.className = 'bingo-label top';
+              top.textContent = 'BINGO!!';
+              const bottom = document.createElement('div');
+              bottom.className = 'bingo-label bottom';
+              bottom.textContent = 'BINGO!!';
+              cells[i].appendChild(top);
+              cells[i].appendChild(bottom);
+            }
+          });
+        }
+      });
+    }
+
+    function downloadAsImage() {
+      html2canvas(document.getElementById('bingo')).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'bingo.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+
+    async function downloadPDF() {
+      const count = parseInt(document.getElementById('pdfCount').value);
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF();
+      for (let i = 0; i < count; i++) {
+        generateBingo();
+        await html2canvas(document.getElementById('bingo')).then(canvas => {
+          const imgData = canvas.toDataURL('image/png');
+          if (i > 0) pdf.addPage();
+          pdf.text(`棒球賓果卡 #${i + 1}`, 10, 10);
+          pdf.addImage(imgData, 'PNG', 10, 20, 190, 190);
+        });
+      }
+      pdf.save('bingo_cards.pdf');
+    }
+
+    function showQRCode() {
+      const qrDiv = document.getElementById('qr-container');
+      qrDiv.style.display = 'block';
+      const url = "https://your-website.com/bingo";
+      document.getElementById("qrcode").innerHTML = "";
+      new QRCode(document.getElementById("qrcode"), url);
+    }
+
+    generateBingo();
+  </script>
 </body>
 </html>
