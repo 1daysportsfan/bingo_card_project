@@ -103,7 +103,15 @@
 
     button:hover { background: #1976D2; }
     #qr-container { margin-top: 20px; display: none; }
-  </style>
+  
+    @media (max-width: 768px) {
+      .main-container { flex-direction: column; align-items: center; }
+      .btn-group { width: 90%; align-items: center; }
+      .btn-group button { font-size: 16px; }
+      .cell { font-size: 12px; min-height: 60px; }
+    }
+</style>
+
 </head>
 <body>
   <div class="title-container">
@@ -115,7 +123,8 @@
   </div>
 
   <div class="main-container">
-    <div id="bingo-container"><div id="bingo" class="bingo"></div></div>
+    <div id="bingo-container"><div id="scoreboard" style="margin-top: 15px; font-size: 16px;"><strong>已標記格數：</strong><span id="markedCount">0</span> ／ 24</div>
+      <div id="bingo" class="bingo"></div></div>
 
     <div class="btn-group">
       <label for="lang">顯示語言：</label>
@@ -201,6 +210,9 @@
           else cell.innerHTML = `<div>${event.zh}</div><div style="font-size:12px;color:gray;">${event.en}</div>`;
           cell.onclick = () => {
             cell.classList.toggle('marked');
+            updateScore();
+            checkBingo();
+            cell.classList.toggle('marked');
             checkBingo();
           };
         }
@@ -248,6 +260,12 @@
       const pdf = new jsPDF();
       for (let i = 0; i < count; i++) {
         generateBingo();
+updateScore();
+function updateScore() {
+  const marked = document.querySelectorAll(".cell.marked:not(.free)").length;
+  document.getElementById("markedCount").textContent = marked;
+}
+
         await html2canvas(document.getElementById('bingo')).then(canvas => {
           const imgData = canvas.toDataURL('image/png');
           if (i > 0) pdf.addPage();
@@ -267,6 +285,12 @@
     }
 
     generateBingo();
+updateScore();
+function updateScore() {
+  const marked = document.querySelectorAll(".cell.marked:not(.free)").length;
+  document.getElementById("markedCount").textContent = marked;
+}
+
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
