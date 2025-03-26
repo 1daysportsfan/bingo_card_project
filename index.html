@@ -206,12 +206,11 @@
         } else {
           const event = shuffled[count++];
           if (lang === 'zh') cell.innerHTML = event.zh;
+          
+          };
           else if (lang === 'en') cell.innerHTML = event.en;
           else cell.innerHTML = `<div>${event.zh}</div><div style="font-size:12px;color:gray;">${event.en}</div>`;
-          cell.onclick = () => {
-            cell.classList.toggle('marked');
-            updateScore();
-            checkBingo();
+          
             cell.classList.toggle('marked');
             checkBingo();
           };
