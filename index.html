@@ -48,6 +48,7 @@
     .free { background: #ccc; font-weight: bold; }
 
     .btn-group {
+  margin-left: 20px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -85,29 +86,34 @@
     @media (max-width: 768px) {
       .main-container {
   flex-direction: row; flex-direction: column; align-items: center; }
-      .btn-group { width: 90%; align-items: center; }
+      .btn-group {
+  margin-left: 20px; width: 90%; align-items: center; }
       .btn-group button { font-size: 16px; }
       .cell { font-size: 12px; min-height: 60px; }
     }
   
-    .btn-group {
-      margin-left: 20px;
-    }
-
-    @media print {
-      .btn-group, .title-container, select, input, label, button, .pdf-count-row {
-        display: none !important;
-      }
-      body {
-        background: white;
-      }
-      .cell {
-        cursor: default;
-        box-shadow: none;
-      }
-    }
+.bingo-line {
+  position: relative;
+}
+.bingo-line::before, .bingo-line::after {
+  content: "BINGO!!";
+  position: absolute;
+  top: -10px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  color: #ff3366;
+  font-size: 12px;
+  animation: blink 0.6s step-end infinite;
+}
+.bingo-line::after {
+  bottom: -10px;
+  top: auto;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
 </style>
-
 </head>
 <body>
   <div class="title-container">
@@ -199,7 +205,7 @@
           if (lang === 'zh') cell.innerHTML = event.zh;
           else if (lang === 'en') cell.innerHTML = event.en;
           else cell.innerHTML = `<div>${event.zh}</div><div style="font-size:12px;color:gray;">${event.en}</div>`;
-          cell.onclick = () => cell.classList.toggle('marked');
+          cell.onclick = () => { cell.classList.toggle('marked'); checkBingo(); };
         }
 
         bingoDiv.appendChild(cell);
@@ -221,7 +227,25 @@
       const pdf = new jsPDF();
 
       for (let i = 0; i < count; i++) {
-        generateBingo();
+        
+generateBingo();
+function checkBingo() {
+  const grid = [...document.querySelectorAll(".cell")];
+  const lines = [
+    [0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14],
+    [15,16,17,18,19], [20,21,22,23,24],
+    [0,5,10,15,20], [1,6,11,16,21], [2,7,12,17,22],
+    [3,8,13,18,23], [4,9,14,19,24],
+    [0,6,12,18,24], [4,8,12,16,20]
+  ];
+  grid.forEach(c => c.classList.remove("bingo-line"));
+  lines.forEach(line => {
+    if (line.every(i => grid[i].classList.contains("marked"))) {
+      line.forEach(i => grid[i].classList.add("bingo-line"));
+    }
+  });
+}
+
         await html2canvas(document.getElementById('bingo')).then(canvas => {
           const imgData = canvas.toDataURL('image/png');
           if (i > 0) pdf.addPage();
@@ -232,7 +256,25 @@
       pdf.save('bingo_cards.pdf');
     }
 
-    generateBingo();
+    
+generateBingo();
+function checkBingo() {
+  const grid = [...document.querySelectorAll(".cell")];
+  const lines = [
+    [0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14],
+    [15,16,17,18,19], [20,21,22,23,24],
+    [0,5,10,15,20], [1,6,11,16,21], [2,7,12,17,22],
+    [3,8,13,18,23], [4,9,14,19,24],
+    [0,6,12,18,24], [4,8,12,16,20]
+  ];
+  grid.forEach(c => c.classList.remove("bingo-line"));
+  lines.forEach(line => {
+    if (line.every(i => grid[i].classList.contains("marked"))) {
+      line.forEach(i => grid[i].classList.add("bingo-line"));
+    }
+  });
+}
+
   </script>
 </body>
 </html>
