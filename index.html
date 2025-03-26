@@ -103,7 +103,24 @@
 
     button:hover { background: #1976D2; }
     #qr-container { margin-top: 20px; display: none; }
-  </style>
+  
+    @media print {
+      body {
+        background: white;
+      }
+      .title-container,
+      .btn-group,
+      #qr-container,
+      select,
+      input,
+      label,
+      button,
+      .pdf-count-row {
+        display: none !important;
+      }
+    }
+</style>
+
 </head>
 <body>
   <div class="title-container">
