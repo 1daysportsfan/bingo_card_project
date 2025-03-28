@@ -52,7 +52,7 @@ This is an interactive Bingo game designed for baseball events. It works on both
 
 **比特幣（BTC）：**
 ![BTC QR Code](images/btc_qr.png)
-錢包地址：`您的BTC錢包地址`
+錢包地址：`3BEjXkeHtYKEygnWnuBrtjBRpopVvZ36A3`
 
 **狗狗幣（DOGE）：**
 ![DOGE QR Code](images/doge_qr.png)
