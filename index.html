@@ -216,6 +216,78 @@
       max-width: 140px;
     }
   }
+
+<style>
+  .control-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .control-bar select {
+    flex-shrink: 0;
+    padding: 8px;
+  }
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .btn-group button {
+    padding: 10px;
+    font-size: 14px;
+  }
+  @media (max-width: 768px) {
+    .control-bar {
+      flex-direction: column;
+      align-items: center;
+    }
+    .btn-group {
+      flex-direction: column;
+      width: 100%;
+    }
+  }
+</style>
+
+</style>
+
+
+<style>
+  .control-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .control-bar select {
+    flex-shrink: 0;
+    padding: 8px;
+  }
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .btn-group button {
+    padding: 10px;
+    font-size: 14px;
+  }
+  @media (max-width: 768px) {
+    .control-bar {
+      flex-direction: column;
+      align-items: center;
+    }
+    .btn-group {
+      flex-direction: column;
+      width: 100%;
+    }
+  }
 </style>
 
 </style>
@@ -235,15 +307,21 @@
     <div id="bingo-container"><div id="bingo" class="bingo"></div></div>
 
     
-<div style="text-align: center; margin-bottom: 10px;">
-  <label for="uiLang">🌐 介面語言 Interface Language:</label>
+<div class="control-bar">
+  <label for="uiLang">🌐 介面語言:</label>
   <select id="uiLang" onchange="switchUILang()">
     <option value="zh" selected>中文</option>
     <option value="en">English</option>
   </select>
-</div>
 
-<div class="btn-group">
+  <div class="btn-group">
+      <button onclick="generateBingo()">🔄 <span id="btn-generate">重新產生</span></button>
+      <button onclick="window.print()">🖨️ <span id="btn-print">列印賓果卡</span></button>
+      <button onclick="downloadAsImage()">📥 <span id="btn-download">下載圖片</span></button>
+      <button onclick="downloadPDF()">📄 <span id="btn-pdf">批次匯出 PDF</span></button>
+      <button onclick="window.location.href='help.html'">❓ <span id="btn-help">幫助說明</span></button>
+  </div>
+</div>
       <label for="lang"><span id="label-lang">顯示語言：</span></label>
       <select id="lang" onchange="generateBingo()">
         <option value="zh">中文</option>
