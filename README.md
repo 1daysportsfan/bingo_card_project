@@ -1,4 +1,3 @@
-
 # 🎯 棒球賓果卡 Baseball Bingo Card
 
 這是一個專為棒球活動設計的互動式賓果卡遊戲，支援手機與桌機瀏覽，適合球場活動、教學互動、親子遊戲等情境！
@@ -51,9 +50,23 @@ This is an interactive Bingo game designed for baseball events. It works on both
 如果您覺得這個項目對您有幫助，歡迎贊助支持：
 
 **比特幣（BTC）：**
-<img src="images/btc_qr.png" width="125" height="125">
+<img src="images/btc_qr.png" width="150" height="150">
 錢包地址：`3BEjXkeHtYKEygnWnuBrtjBRpopVvZ36A3`
 
 **狗狗幣（DOGE）：**
-<img src="images/doge_qr.png" width="125" height="125">
+<img src="images/doge_qr.png" width="150" height="150">
 錢包地址：`您的DOGE錢包地址`
+
+
+## 贊助支持 / Support
+
+如果您覺得這個項目對您有幫助，歡迎贊助支持 🙌  
+If you find this project helpful, feel free to support us 🙌
+
+**比特幣（BTC）：**  
+<img src="images/btc_qr.png" width="150" height="150">  
+**錢包地址 / Wallet Address**: `3BEjXkeHtYKEygnWnuBrtjBRpopVvZ36A3`
+
+**狗狗幣（DOGE）：**  
+<img src="images/doge_qr.png" width="150" height="150">  
+**錢包地址 / Wallet Address**: `您的DOGE錢包地址`
