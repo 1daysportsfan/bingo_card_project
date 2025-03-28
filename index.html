@@ -343,7 +343,7 @@
         await html2canvas(document.getElementById('bingo')).then(canvas => {
           const imgData = canvas.toDataURL('image/png');
           if (i > 0) pdf.addPage();
-          pdf.text(`棒球賓果卡 #${i + 1}`, 10, 10);
+          pdf.text(`Baseball Bingo Card #${i + 1}`, 10, 10);
           pdf.addImage(imgData, 'PNG', 10, 20, 190, 190);
         });
       }
