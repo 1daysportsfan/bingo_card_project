@@ -45,19 +45,6 @@ This is an interactive Bingo game designed for baseball events. It works on both
 - PDF 產生使用 jsPDF  
   PDF generation via [jsPDF](https://github.com/parallax/jsPDF)
 
-## 贊助支持
-
-如果您覺得這個項目對您有幫助，歡迎贊助支持：
-
-**比特幣（BTC）：**
-<img src="images/btc_qr.png" width="150" height="150">
-錢包地址：`3BEjXkeHtYKEygnWnuBrtjBRpopVvZ36A3`
-
-**狗狗幣（DOGE）：**
-<img src="images/doge_qr.png" width="150" height="150">
-錢包地址：`您的DOGE錢包地址`
-
-
 ## 贊助支持 / Support
 
 如果您覺得這個項目對您有幫助，歡迎贊助支持 🙌  
