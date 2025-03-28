@@ -193,6 +193,31 @@
   }
 }
 
+
+<style>
+  @media (min-width: 769px) {
+    .main-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: row; /* 改為橫向排列 */
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      width: 300px; /* 避免按鈕過長 */
+    }
+    .btn-group button {
+      flex: 1; /* 讓按鈕平均分配空間 */
+      max-width: 140px;
+    }
+  }
+</style>
+
 </style>
 
 
