@@ -51,7 +51,7 @@ This is an interactive Bingo game designed for baseball events. It works on both
 如果您覺得這個項目對您有幫助，歡迎贊助支持：
 
 **比特幣（BTC）：**
-<img src="images/btc_qr.png" width="150" height="150">
+<img src="images/btc_qr.png" width="120" height="120">
 錢包地址：`3BEjXkeHtYKEygnWnuBrtjBRpopVvZ36A3`
 
 **狗狗幣（DOGE）：**
