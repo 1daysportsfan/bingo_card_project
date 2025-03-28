@@ -45,3 +45,15 @@ This is an interactive Bingo game designed for baseball events. It works on both
   Image export via [html2canvas](https://html2canvas.hertzen.com/)
 - PDF 產生使用 jsPDF  
   PDF generation via [jsPDF](https://github.com/parallax/jsPDF)
+
+## 贊助支持
+
+如果您覺得這個項目對您有幫助，歡迎贊助支持：
+
+**比特幣（BTC）：**
+![BTC QR Code](images/btc_qr.png)
+錢包地址：`您的BTC錢包地址`
+
+**狗狗幣（DOGE）：**
+![DOGE QR Code](images/doge_qr.png)
+錢包地址：`您的DOGE錢包地址`
