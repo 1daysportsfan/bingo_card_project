@@ -193,103 +193,6 @@
   }
 }
 
-
-<style>
-  @media (min-width: 769px) {
-    .main-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 30px;
-    }
-    .btn-group {
-      display: flex;
-      flex-direction: row; /* 改為橫向排列 */
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      width: 300px; /* 避免按鈕過長 */
-    }
-    .btn-group button {
-      flex: 1; /* 讓按鈕平均分配空間 */
-      max-width: 140px;
-    }
-  }
-
-<style>
-  .control-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  .control-bar select {
-    flex-shrink: 0;
-    padding: 8px;
-  }
-  .btn-group {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-  .btn-group button {
-    padding: 10px;
-    font-size: 14px;
-  }
-  @media (max-width: 768px) {
-    .control-bar {
-      flex-direction: column;
-      align-items: center;
-    }
-    .btn-group {
-      flex-direction: column;
-      width: 100%;
-    }
-  }
-</style>
-
-</style>
-
-
-<style>
-  .control-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  .control-bar select {
-    flex-shrink: 0;
-    padding: 8px;
-  }
-  .btn-group {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-  .btn-group button {
-    padding: 10px;
-    font-size: 14px;
-  }
-  @media (max-width: 768px) {
-    .control-bar {
-      flex-direction: column;
-      align-items: center;
-    }
-    .btn-group {
-      flex-direction: column;
-      width: 100%;
-    }
-  }
-</style>
-
 </style>
 
 
@@ -298,31 +201,16 @@
   <div class="title-container">
     <img id="logo" src="logo.png" alt="Logo" />
     <div class="title-text">
-      <h1><span id="title-text">棒球賓果卡</span></h1>
-      <small><span id="subtitle-text">Baseball Bingo Card</span></small>
+      <h1>棒球賓果卡</h1>
+      <small>Baseball Bingo Card</small>
     </div>
   </div>
 
   <div class="main-container">
     <div id="bingo-container"><div id="bingo" class="bingo"></div></div>
 
-    
-<div class="control-bar">
-  <label for="uiLang">🌐 介面語言:</label>
-  <select id="uiLang" onchange="switchUILang()">
-    <option value="zh" selected>中文</option>
-    <option value="en">English</option>
-  </select>
-
-  <div class="btn-group">
-      <button onclick="generateBingo()">🔄 <span id="btn-generate">重新產生</span></button>
-      <button onclick="window.print()">🖨️ <span id="btn-print">列印賓果卡</span></button>
-      <button onclick="downloadAsImage()">📥 <span id="btn-download">下載圖片</span></button>
-      <button onclick="downloadPDF()">📄 <span id="btn-pdf">批次匯出 PDF</span></button>
-      <button onclick="window.location.href='help.html'">❓ <span id="btn-help">幫助說明</span></button>
-  </div>
-</div>
-      <label for="lang"><span id="label-lang">顯示語言：</span></label>
+    <div class="btn-group">
+      <label for="lang">顯示語言：</label>
       <select id="lang" onchange="generateBingo()">
         <option value="zh">中文</option>
         <option value="en">English</option>
@@ -334,11 +222,11 @@
         <span>張</span>
       </div>
 
-      <button onclick="generateBingo()">🔄 <span id="btn-generate">重新產生</span></button>
-      <button onclick="window.print()">🖨️ <span id="btn-print">列印賓果卡</span></button>
-      <button onclick="downloadAsImage()">📥 <span id="btn-download">下載圖片</span></button>
-      <button onclick="downloadPDF()">📄 <span id="btn-pdf">批次匯出 PDF</span></button>
-            <button onclick="window.location.href='help.html'">❓ <span id="btn-help">幫助說明</span></button>
+      <button onclick="generateBingo()">🔄 重新產生</button>
+      <button onclick="window.print()">🖨️ 列印賓果卡</button>
+      <button onclick="downloadAsImage()">📥 下載圖片</button>
+      <button onclick="downloadPDF()">📄 批次匯出 PDF</button>
+            <button onclick="window.location.href='help.html'">❓ 幫助說明</button>
     </div>
   </div>
 
@@ -455,7 +343,7 @@
         await html2canvas(document.getElementById('bingo')).then(canvas => {
           const imgData = canvas.toDataURL('image/png');
           if (i > 0) pdf.addPage();
-          pdf.text(`<span id="title-text">棒球賓果卡</span> #${i + 1}`, 10, 10);
+          pdf.text(`棒球賓果卡 #${i + 1}`, 10, 10);
           pdf.addImage(imgData, 'PNG', 10, 20, 190, 190);
         });
       }
@@ -488,21 +376,6 @@
       new QRCode(document.getElementById("qrcode"), url);
     }
   </script>
-
-<script>
-  function switchUILang() {
-    const lang = document.getElementById('uiLang').value;
-    document.getElementById('title-text').textContent = lang === 'en' ? 'Baseball Bingo Card' : '棒球賓果卡';
-    document.getElementById('subtitle-text').textContent = lang === 'en' ? 'Baseball Bingo Card' : 'Baseball Bingo Card';
-    document.getElementById('label-lang').textContent = lang === 'en' ? 'Event Language:' : '顯示語言：';
-    document.getElementById('btn-generate').textContent = lang === 'en' ? 'Regenerate' : '🔄 重新產生';
-    document.getElementById('btn-print').textContent = lang === 'en' ? 'Print Card' : '🖨️ 列印賓果卡';
-    document.getElementById('btn-download').textContent = lang === 'en' ? 'Download Image' : '📥 下載圖片';
-    document.getElementById('btn-pdf').textContent = lang === 'en' ? 'Export PDF' : '📄 批次匯出 PDF';
-    document.getElementById('btn-help').textContent = lang === 'en' ? 'Help' : '❓ 幫助說明';
-  }
-</script>
-
 </body>
 </html>
 
